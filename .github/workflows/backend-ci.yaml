@@ -1,4 +1,4 @@
-name: sub1
+name: backend ci
 
 on:
   workflow_call:
