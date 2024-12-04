@@ -17,11 +17,11 @@ jobs:
     needs: main
     uses: ./.github/workflows/sub2.yaml
   check:
-    # sub1とsub2が成功したら成功する
+    # 依存するジョブが全て成功したときにのみ実行され、常に成功するジョブ
+    # ブランチプロテクションではこれの成功をマージ条件にすると良い
     needs: [call-sub1, call-sub2]
     runs-on: ubuntu-latest
     steps:
-      - name: fail if sub1 or sub2 failed
-        if: failure()
-        run: exit 1
+      - name: congrat!
+        run: echo 🎉
 
