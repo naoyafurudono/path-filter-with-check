@@ -42,7 +42,6 @@ jobs:
     if: always()
     steps:
       - name: fail
-        if: ${{ (jobs.call-frontend.status == 'skipped' || jobs.call-frontend.status == 'success') && (jobs.call-backend.status == 'skipped' || jobs.call-backend.status == 'success' }}
         run: exit 1
       - name: congrat!
         run: echo 🎉
