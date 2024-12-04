@@ -20,8 +20,10 @@ jobs:
           filters: |
             backend:
               - 'backend/**'
+              - '.github/workflows/backend-ci.yaml'
             frontend:
               - 'frontend/**'
+              - '.github/workflows/frontend-ci.yaml'
   call-backend:
     needs: check-change
     uses: ./.github/workflows/backend-ci.yaml
@@ -37,7 +39,10 @@ jobs:
     # ブランチプロテクションではこれの成功をマージ条件にすると良い
     needs: [call-backend, call-frontend]
     runs-on: ubuntu-latest
+    if: always()
     steps:
+      - name: fail
+        run: exit 1
       - name: congrat!
         run: echo 🎉
 
