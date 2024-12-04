@@ -25,12 +25,12 @@ jobs:
     needs: check-change
     uses: ./.github/workflows/backend-ci.yaml
     with:
-      changed: jobs.check-change.output.backend == 'true'
+      changed: ${{ needs.check-change.output.backend == 'true' }}
   call-frontend:
     needs: check-change
     uses: ./.github/workflows/frontend-ci.yaml
     with:
-      changed: jobs.check-change.output.frontend == 'true'
+      changed: ${{ needs.check-change.output.frontend == 'true' }}
   check:
     # 依存するジョブが全て成功したときにのみ実行され、常に成功するジョブ
     # ブランチプロテクションではこれの成功をマージ条件にすると良い
