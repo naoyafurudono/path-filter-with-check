@@ -1,0 +1,19 @@
+name: sub1
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  sub_job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: sub_job1
+        run: echo "sub_job1"
+  sub_job2_fail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: sub_job2_start
+        run: echo "sub_job2_start"
+      - name: sub_job2_fail
+        run: exit 1
