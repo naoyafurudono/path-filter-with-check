@@ -2,16 +2,23 @@ name: backend ci
 
 on:
   workflow_call:
+    inputs:
+      changed:
+        description: 'is backend/ changed? (defualt: false)'
+        required: false
+        type: boolean
   workflow_dispatch:
 
 jobs:
   sub_job1:
     runs-on: ubuntu-latest
+    if: ${{ inputs.changed }}
     steps:
       - name: sub_job1
         run: echo "sub_job1"
   sub_job2_fail:
     runs-on: ubuntu-latest
+    if: ${{ inputs.changed }}
     steps:
       - name: sub_job2_start
         run: echo "sub_job2_start"

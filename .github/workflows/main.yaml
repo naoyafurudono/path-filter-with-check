@@ -24,13 +24,17 @@ jobs:
   call-backend:
     needs: check-change
     uses: ./.github/workflows/backend-ci.yaml
+    with:
+      changed: jobs.check-change.output.backend == 'true'
   call-frontend:
     needs: check-change
     uses: ./.github/workflows/frontend-ci.yaml
+    with:
+      changed: jobs.check-change.output.frontend == 'true'
   check:
     # 依存するジョブが全て成功したときにのみ実行され、常に成功するジョブ
     # ブランチプロテクションではこれの成功をマージ条件にすると良い
-    needs: [call-sub1, call-sub2]
+    needs: [call-backend, call-frontend]
     runs-on: ubuntu-latest
     steps:
       - name: congrat!
