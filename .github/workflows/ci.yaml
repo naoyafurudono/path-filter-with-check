@@ -1,15 +1,10 @@
-name: main
+name: main ci
 
 on:
   workflow_dispatch:
   push:
 
 jobs:
-  main:
-    runs-on: ubuntu-latest
-    steps:
-      - name: hello
-        run: echo "hello world"
   check-change:
     runs-on: ubuntu-latest
     permissions:
@@ -37,7 +32,7 @@ jobs:
     uses: ./.github/workflows/frontend-ci.yaml
     with:
       changed: ${{ needs.check-change.outputs.frontend == 'true' }}
-  check:
+  check-result:
     # 依存するジョブが全て成功したときにのみ実行され、常に成功するジョブ
     # ブランチプロテクションではこれの成功をマージ条件にすると良い
     needs: [call-backend, call-frontend]
