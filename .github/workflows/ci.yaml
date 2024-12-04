@@ -20,8 +20,10 @@ jobs:
           filters: |
             backend:
               - 'backend/**'
+              - '.github/workflows/backend-ci.yaml'
             frontend:
               - 'frontend/**'
+              - '.github/workflows/frontend-ci.yaml'
   call-backend:
     needs: check-change
     uses: ./.github/workflows/backend-ci.yaml
