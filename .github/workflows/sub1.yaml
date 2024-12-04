@@ -15,5 +15,5 @@ jobs:
     steps:
       - name: sub_job2_start
         run: echo "sub_job2_start"
-      - name: sub_job2_fail
-        run: exit 1
+      # - name: sub_job2_fail
+      #   run: exit 1
