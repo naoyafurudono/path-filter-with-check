@@ -10,16 +10,37 @@ jobs:
     steps:
       - name: hello
         run: echo "hello world"
-  call-sub1:
-    needs: main
-    uses: ./.github/workflows/sub1.yaml
-  call-sub2:
-    needs: main
-    uses: ./.github/workflows/sub2.yaml
+  check-change:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      backend: ${{ steps.changes.outputs.backend }}
+      frontend: ${{ steps.changes.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+            frontend:
+              - 'frontend/**'
+  call-backend:
+    needs: check-change
+    uses: ./.github/workflows/backend-ci.yaml
+    with:
+      changed: ${{ needs.check-change.outputs.backend == 'true' }}
+  call-frontend:
+    needs: check-change
+    uses: ./.github/workflows/frontend-ci.yaml
+    with:
+      changed: ${{ needs.check-change.outputs.frontend == 'true' }}
   check:
     # 依存するジョブが全て成功したときにのみ実行され、常に成功するジョブ
     # ブランチプロテクションではこれの成功をマージ条件にすると良い
-    needs: [call-sub1, call-sub2]
+    needs: [call-backend, call-frontend]
     runs-on: ubuntu-latest
     steps:
       - name: congrat!
